@@ -490,49 +490,6 @@ export default function ManagerPage() {
                             </div>
                         </div>
 
-                        {/* Location + Time */}
-                        <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
-                            <div style={{ flex: 1 }}>
-                                <div style={{ fontSize: 10, fontWeight: 700, color: C.txM, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 5 }}>Location</div>
-                                <input
-                                    value={form.lc}
-                                    onChange={(e) => setForm((p) => ({ ...p, lc: e.target.value }))}
-                                    placeholder="e.g. Shelf B3"
-                                    style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: `1px solid ${C.brdM}`, fontSize: 13, color: C.tx, fontFamily: F, background: C.surfDim, outline: "none" }}
-                                />
-                            </div>
-                            <div style={{ flex: 1 }}>
-                                <div style={{ fontSize: 10, fontWeight: 700, color: C.txM, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 5 }}>Time</div>
-                                <input
-                                    type="time"
-                                    value={form.tm}
-                                    onChange={(e) => setForm((p) => ({ ...p, tm: e.target.value }))}
-                                    style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: `1px solid ${C.brdM}`, fontSize: 13, color: C.tx, fontFamily: F, background: C.surfDim, outline: "none" }}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Assign to */}
-                        <div style={{ marginBottom: 20 }}>
-                            <div style={{ fontSize: 10, fontWeight: 700, color: C.txM, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 5 }}>Assign To</div>
-                            <div style={{ display: "flex", gap: 6, overflowX: "auto", paddingBottom: 2 }}>
-                                {EMP.map((e) => {
-                                    const on = form.em === e.id;
-                                    return (
-                                        <div key={e.id} onClick={() => setForm((p) => ({ ...p, em: e.id }))} style={{
-                                            flexShrink: 0, padding: "6px 10px", borderRadius: 10, cursor: "pointer",
-                                            display: "flex", alignItems: "center", gap: 6,
-                                            background: on ? C.g50 : C.surfDim,
-                                            border: `1px solid ${on ? C.g700 : C.brd}`,
-                                        }}>
-                                            <div style={{ width: 22, height: 22, borderRadius: 6, background: on ? C.g700 : C.g100, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 8, fontWeight: 700, color: on ? "#fff" : C.g700 }}>{e.av}</div>
-                                            <span style={{ fontSize: 11, fontWeight: 600, color: on ? C.g700 : C.txS, whiteSpace: "nowrap" }}>{e.nm.split(" ")[0]}</span>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-
                         {/* Submit */}
                         <div onClick={addTask} style={{
                             display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
