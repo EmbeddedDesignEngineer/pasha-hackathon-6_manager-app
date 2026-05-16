@@ -138,19 +138,13 @@ const EMP: Employee[] = [
 
 const TSK: Task[] = [
     { id: "t1",  tl: "Kassa 3-ü aç",                            pr: "critical", sr: "cv",      lc: "Rəf B3",        tm: "09:30", em: "e1" },
-    { id: "t3",  tl: "Soyuq zəncir temperaturunu yoxla",        pr: "critical", sr: "fixed",   lc: "Soyuq anbar",   tm: "08:00", em: "e1" },
     { id: "t21", tl: "Çəki bölməsi — müştəriyə kömək et",       pr: "critical", sr: "cv",     lc: "Bütün rəflər",  tm: "09:00", em: "e1" },
     { id: "t15", tl: "Quba Broyler çatdırılmasını qəbul et",    pr: "critical", sr: "fixed", lc: "Yükləmə yeri",  tm: "12:30", em: "e3" },
     { id: "t2",  tl: "Tərəvəz bölməsi dumanlamasını təmizlə",   pr: "high",  sr: "manager", lc: "Tərəvəz",      tm: "10:00", em: "e1" },
-    { id: "t9",  tl: "SAB su göndərişini qəbul et",             pr: "high",     sr: "fixed",   lc: "Yükləmə yeri",  tm: "11:30", em: "e2" },
     { id: "t11", tl: "Delikates piştaxtasını dərindən təmizlə", pr: "high", sr: "manager", lc: "Delikates",    tm: "09:00", em: "e5" },
     { id: "t20", tl: "Təzə meyvə-tərəvəz çatdırılması",         pr: "high",     sr: "fixed",   lc: "Yükləmə yeri",  tm: "08:00", em: "e1" },
-    { id: "t8",  tl: "Yanğınsöndürənləri yoxla",                pr: "medium",   sr: "fixed",   lc: "Bütün mərtəbələr", tm: "14:00", em: "e3" },
     { id: "t19", tl: "Atena pendir stendini doldur",            pr: "medium",   sr: "manager", lc: "Süd B1",        tm: "14:30", em: "e2" },
-    { id: "t7",  tl: "4-cü kassanı təmizlə",                    pr: "low",      sr: "fixed",   lc: "Kassa 4",       tm: "12:00", em: "e5" },
     { id: "t12", tl: "Rəf qiymət etiketlərini yoxla",           pr: "low",      sr: "fixed",   lc: "Rəf C1-C4",    tm: "15:00", em: "e6" },
-    { id: "t18", tl: "İşçi istirahət otağını təmizlə",          pr: "low",      sr: "manager", lc: "İstirahət otağı", tm: "16:00", em: "e5" },
-    { id: "t22", tl: "Məişət kimyəviyyatını doldur",            pr: "low",      sr: "fixed",   lc: "Rəf F2",        tm: "17:00", em: "e6" },
 ];
 
 const ALRT: Alert[] = [
@@ -158,7 +152,6 @@ const ALRT: Alert[] = [
     { id: "a2", tp: "temperature", tl: "Dondurucu 2 temperaturu -14°C-yə qalxıb", sv: "critical", ag: "5 dəq", dt: "Hədd -18°C. Kompressor problem." },
     { id: "a3", tp: "stockout",    tl: "Milla Kefir 500ml — rəf boşdur",          sv: "high",     ag: "8 dəq", dt: "Son satış 22 dəq əvvəl. Seqment B3-04." },
     { id: "a4", tp: "expiry",      tl: "12 süd məhsulunun müddəti 24 saat qalıb",  sv: "high",     ag: "12 dəq", dt: "Endirim tövsiyə olunur." },
-    { id: "a5", tp: "crowd",       tl: "Metro dalğası — 3 dəqiqədə 40+ giriş",    sv: "medium",   ag: "15 dəq", dt: "Koroğlu metro dalğası aşkarlandı." },
 ];
 
 const POS: PosData[] = Array.from({ length: 24 }, (_, h) => {

@@ -128,37 +128,30 @@ const LOGO = "https://www.bravosupermarket.az/site/templates/img/newLogo.png";
 
 // ─── DATA (EN) ───
 const EMP: Employee[] = [
-    { id: "e1", nm: "Ali Hasanov",    rl: "Floor Manager",      st: "busy",  av: "AH", tsk: "Restock Dairy Fridge B3",          pri: "critical", dn: 7 },
-    { id: "e2", nm: "Leyla Guliyeva",  rl: "Warehouse Staff",    st: "idle",  av: "LG", tsk: null,                                pri: null,       dn: 4 },
-    { id: "e3", nm: "Rashad Mammadov", rl: "Warehouse Staff",    st: "busy",  av: "RM", tsk: "Accept Quba Broiler Delivery",      pri: "high",     dn: 5 },
-    { id: "e4", nm: "Nigar Aliyeva",   rl: "Checkout Manager",   st: "break", av: "NA", tsk: null,                                pri: null,       dn: 3 },
-    { id: "e5", nm: "Tural Babayev",   rl: "Cleaning Staff",     st: "busy",  av: "TB", tsk: "Clean Deli Counter",                pri: "high",     dn: 6 },
-    { id: "e6", nm: "Gunel Huseynova", rl: "Warehouse Staff",    st: "idle",  av: "GH", tsk: null,                                pri: null,       dn: 2 },
+    { id: "e1", nm: "Ali Hasanov",      rl: "Floor Manager",       st: "busy",  av: "AH", tsk: "Restock dairy cooler B3",            pri: "critical", dn: 7 },
+    { id: "e2", nm: "Leyla Guliyeva",   rl: "Stock Associate",     st: "idle",  av: "LG", tsk: null,                                 pri: null,       dn: 4 },
+    { id: "e3", nm: "Rashad Mammadov",  rl: "Stock Associate",     st: "busy",  av: "RM", tsk: "Receive Guba Broiler delivery",      pri: "high",     dn: 5 },
+    { id: "e4", nm: "Nigar Aliyeva",    rl: "Checkout Lead",       st: "break", av: "NA", tsk: null,                                 pri: null,       dn: 3 },
+    { id: "e5", nm: "Tural Babayev",    rl: "Cleaning Staff",      st: "busy",  av: "TB", tsk: "Clean deli counter",                 pri: "high",     dn: 6 },
+    { id: "e6", nm: "Gunel Huseynova",  rl: "Stock Associate",     st: "idle",  av: "GH", tsk: null,                                 pri: null,       dn: 2 },
 ];
 
 const TSK: Task[] = [
-    { id: "t1",  tl: "Open Checkout 3",                    pr: "critical", sr: "cv",      lc: "Shelf B3",       tm: "09:30", em: "e1" },
-    { id: "t3",  tl: "Check Cold Chain Temperature",       pr: "critical", sr: "fixed",   lc: "Cold Storage",   tm: "08:00", em: "e1" },
-    { id: "t21", tl: "Scales Section — Assist Customer",   pr: "critical", sr: "cv",      lc: "All Shelves",    tm: "09:00", em: "e1" },
-    { id: "t15", tl: "Accept Quba Broiler Delivery",       pr: "critical", sr: "fixed",   lc: "Loading Area",   tm: "12:30", em: "e3" },
-    { id: "t2",  tl: "Clean Produce Misting System",       pr: "high",     sr: "manager", lc: "Produce",        tm: "10:00", em: "e1" },
-    { id: "t9",  tl: "Accept SAB Water Delivery",          pr: "high",     sr: "fixed",   lc: "Loading Area",   tm: "11:30", em: "e2" },
-    { id: "t11", tl: "Deep Clean Deli Counter",            pr: "high",     sr: "manager", lc: "Deli",           tm: "09:00", em: "e5" },
-    { id: "t20", tl: "Fresh Produce Delivery",             pr: "high",     sr: "fixed",   lc: "Loading Area",   tm: "08:00", em: "e1" },
-    { id: "t8",  tl: "Check Fire Extinguishers",           pr: "medium",   sr: "fixed",   lc: "All Floors",     tm: "14:00", em: "e3" },
-    { id: "t19", tl: "Restock Atena Cheese Stand",         pr: "medium",   sr: "manager", lc: "Dairy B1",       tm: "14:30", em: "e2" },
-    { id: "t7",  tl: "Clean Checkout 4",                   pr: "low",      sr: "fixed",   lc: "Checkout 4",     tm: "12:00", em: "e5" },
-    { id: "t12", tl: "Check Shelf Price Labels",           pr: "low",      sr: "fixed",   lc: "Shelf C1-C4",   tm: "15:00", em: "e6" },
-    { id: "t18", tl: "Clean Staff Break Room",             pr: "low",      sr: "manager", lc: "Break Room",     tm: "16:00", em: "e5" },
-    { id: "t22", tl: "Restock Household Chemicals",        pr: "low",      sr: "fixed",   lc: "Shelf F2",       tm: "17:00", em: "e6" },
+    { id: "t1",  tl: "Open checkout lane 3",                    pr: "critical", sr: "cv",      lc: "Shelf B3",       tm: "09:30", em: "e1" },
+    { id: "t21", tl: "Weigh section — assist customer",         pr: "critical", sr: "cv",      lc: "All shelves",    tm: "09:00", em: "e1" },
+    { id: "t15", tl: "Receive Guba Broiler delivery",           pr: "critical", sr: "fixed",   lc: "Loading dock",   tm: "12:30", em: "e3" },
+    { id: "t2",  tl: "Clean produce section misters",           pr: "high",     sr: "manager", lc: "Produce",        tm: "10:00", em: "e1" },
+    { id: "t11", tl: "Deep clean deli counter",                 pr: "high",     sr: "manager", lc: "Deli",           tm: "09:00", em: "e5" },
+    { id: "t20", tl: "Fresh produce delivery",                  pr: "high",     sr: "fixed",   lc: "Loading dock",   tm: "08:00", em: "e1" },
+    { id: "t19", tl: "Restock Atena cheese display",            pr: "medium",   sr: "manager", lc: "Dairy B1",       tm: "14:30", em: "e2" },
+    { id: "t12", tl: "Check shelf price tags",                  pr: "low",      sr: "fixed",   lc: "Shelf C1-C4",    tm: "15:00", em: "e6" },
 ];
 
 const ALRT: Alert[] = [
-    { id: "a1", tp: "crowd",       tl: "Checkout Congestion — Open Lane 5",          sv: "critical", ag: "2 min", dt: "Queue in lanes 1-3 exceeds 8 people." },
-    { id: "a2", tp: "temperature", tl: "Freezer 2 Temperature Rose to -14°C",        sv: "critical", ag: "5 min", dt: "Threshold -18°C. Compressor issue." },
-    { id: "a3", tp: "stockout",    tl: "Milla Kefir 500ml — Shelf Empty",            sv: "high",     ag: "8 min", dt: "Last sale 22 min ago. Segment B3-04." },
-    { id: "a4", tp: "expiry",      tl: "12 Dairy Products Expire in 24 Hours",       sv: "high",     ag: "12 min", dt: "Discount recommended." },
-    { id: "a5", tp: "crowd",       tl: "Metro Wave — 40+ Entries in 3 Minutes",      sv: "medium",   ag: "15 min", dt: "Koroglu metro surge detected." },
+    { id: "a1", tp: "crowd",       tl: "Checkout congestion — open lane 5",          sv: "critical", ag: "2 min",  dt: "Queue on lanes 1-3 exceeds 8 people." },
+    { id: "a2", tp: "temperature", tl: "Freezer 2 temp rose to -14°C",               sv: "critical", ag: "5 min",  dt: "Threshold is -18°C. Compressor issue." },
+    { id: "a3", tp: "stockout",    tl: "Milla Kefir 500ml — shelf empty",            sv: "high",     ag: "8 min",  dt: "Last sale 22 min ago. Segment B3-04." },
+    { id: "a4", tp: "expiry",      tl: "12 dairy items expiring within 24 hours",    sv: "high",     ag: "12 min", dt: "Markdown recommended." },
 ];
 
 const POS: PosData[] = Array.from({ length: 24 }, (_, h) => {
