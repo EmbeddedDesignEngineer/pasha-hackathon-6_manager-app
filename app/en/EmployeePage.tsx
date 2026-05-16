@@ -75,7 +75,7 @@ const SL: Record<Source, string> = { cv: "AI Vision", fixed: "Routine", manager:
 
 // ─── DATA ───
 const initTasks = (): TaskItem[] => [
-    { id: "t1",  tl: "Open Checkout 3",                    pr: "critical", sr: "cv",      lc: "Shelf B3",      tm: "09:30", st: "current" },
+    { id: "t1",  tl: "Weight the customer's candy in grams and add a barcode label",                    pr: "critical", sr: "cv",      lc: "Shelf B3",      tm: "09:30", st: "current" },
     { id: "t20", tl: "Receive Fresh Produce Delivery",     pr: "high",     sr: "fixed",   lc: "Loading Area",  tm: "08:00", st: "queued" },
     { id: "t3",  tl: "Check Cold Chain Temperature",       pr: "critical", sr: "fixed",   lc: "Cold Storage",  tm: "08:00", st: "queued" },
     { id: "t2",  tl: "Clean Produce Misting Sprayers",     pr: "high",     sr: "manager", lc: "Produce",       tm: "10:00", st: "queued" },
@@ -180,7 +180,7 @@ export default function EmployeePage() {
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                     <img src={LOGO} alt="Bravo" style={{ height: 30, filter: "brightness(0) invert(1)", objectFit: "contain" }} />
                     <div>
-                        <div style={{ fontFamily: fh, fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: -0.3 }}>Ali Hasanov</div>
+                        <div style={{ fontFamily: fh, fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: -0.3 }}>Elnur Məmmədov</div>
                         <div style={{ fontSize: 10, color: "rgba(255,255,255,.5)", fontWeight: 600 }}>Floor Manager • Koroglu</div>
                     </div>
                 </div>
