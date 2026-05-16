@@ -75,13 +75,11 @@ const SL: Record<Source, string> = { cv: "AI Görmə", fixed: "Rutin", manager: 
 
 // ─── DATA ───
 const initTasks = (): TaskItem[] => [
-    { id: "t1",  tl: "Süd soyuducusu B3-ü doldurun",       pr: "critical", sr: "cv",      lc: "Rəf B3",       tm: "09:30", st: "current" },
+    { id: "t1",  tl: "Kassa 3-ü aç",       pr: "critical", sr: "cv",      lc: "Rəf B3",       tm: "09:30", st: "current" },
     { id: "t20", tl: "Təzə meyvə-tərəvəz göndərisini al",  pr: "high",     sr: "fixed",   lc: "Yükləmə yeri", tm: "08:00", st: "queued" },
     { id: "t3",  tl: "Soyuq zəncir temperaturunu yoxla",    pr: "critical", sr: "fixed",   lc: "Soyuq anbar",  tm: "08:00", st: "queued" },
     { id: "t2",  tl: "Meyvə-tərəvəz spreylərini təmizlə",  pr: "high",     sr: "manager", lc: "Tərəvəz",      tm: "10:00", st: "queued" },
-    { id: "t21", tl: "Son istifadə tarixli məhsulları yoxla", pr: "critical", sr: "cv",     lc: "Bütün rəflər", tm: "09:00", st: "queued" },
-    { id: "t5",  tl: "Qəlyanaltı stendini doldur",          pr: "medium",   sr: "cv",      lc: "Rəf D1",       tm: "11:00", st: "queued" },
-    { id: "t13", tl: "Sirab mineral su rəfini doldur",      pr: "medium",   sr: "cv",      lc: "Rəf A1",       tm: "13:00", st: "queued" },
+    { id: "t21", tl: "Çəki bölməsi — müştəriyə kömək et", pr: "critical", sr: "cv",     lc: "Bütün rəflər", tm: "09:00", st: "queued" }
 ];
 
 const initDone = (): DoneItem[] => [
