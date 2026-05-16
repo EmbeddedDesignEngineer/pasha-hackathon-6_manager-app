@@ -167,6 +167,16 @@ const POS: PosData[] = Array.from({ length: 24 }, (_, h) => {
     return { hr: h.toString().padStart(2, "0") + ":00", tx };
 });
 
+interface NewTaskForm {
+    tl: string;
+    pr: Priority;
+    lc: string;
+    tm: string;
+    em: string;
+}
+
+const EMPTY_FORM: NewTaskForm = { tl: "", pr: "medium", lc: "", tm: "", em: "e1" };
+
 // ─── COMPONENT ───
 export default function ManagerPage() {
     const [tab, setTab] = useState<TabId>("activity");
@@ -176,6 +186,9 @@ export default function ManagerPage() {
     const [now, setNow] = useState<Date | null>(null);
     const [toast, setToast] = useState<Alert | null>(null);
     const [tVis, setTVis] = useState<boolean>(false);
+    const [tasks, setTasks] = useState<Task[]>(TSK);
+    const [showForm, setShowForm] = useState<boolean>(false);
+    const [form, setForm] = useState<NewTaskForm>(EMPTY_FORM);
     const ai = useRef<number>(0);
 
     useEffect(() => {
@@ -198,7 +211,24 @@ export default function ManagerPage() {
 
     const tm = now ? now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }) : "--:--";
 
-    const ft = TSK
+    const addTask = (): void => {
+        if (!form.tl.trim()) return;
+        const now2 = new Date();
+        const newTask: Task = {
+            id: `m${Date.now()}`,
+            tl: form.tl.trim(),
+            pr: form.pr,
+            sr: "manager",
+            lc: form.lc.trim() || "—",
+            tm: form.tm || `${now2.getHours().toString().padStart(2, "0")}:${now2.getMinutes().toString().padStart(2, "0")}`,
+            em: form.em,
+        };
+        setTasks((p) => [newTask, ...p]);
+        setForm(EMPTY_FORM);
+        setShowForm(false);
+    };
+
+    const ft = tasks
         .filter((t) => flt === "all" || (flt === "critical" ? t.pr === "critical" : t.sr === flt))
         .filter((t) => !selE || t.em === selE)
         .filter((t) => !q || t.tl.toLowerCase().includes(q.toLowerCase()))
@@ -304,7 +334,7 @@ export default function ManagerPage() {
                                 <span onClick={(ev) => { ev.stopPropagation(); setSelE(null); }} style={{ marginLeft: 4, cursor: "pointer", color: C.red, fontSize: 11 }}>✕</span>
               </span>}
                         </div>
-                        <div style={{ width: 34, height: 34, borderRadius: 10, background: C.g700, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><Plus size={16} color="#fff" /></div>
+                        <div onClick={() => setShowForm(true)} style={{ width: 34, height: 34, borderRadius: 10, background: C.g700, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><Plus size={16} color="#fff" /></div>
                     </div>
                     <div style={{ background: C.surface, borderRadius: 11, padding: "8px 12px", border: `1px solid ${C.brd}`, display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                         <Search size={14} color={C.txM} />
@@ -390,8 +420,8 @@ export default function ManagerPage() {
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 14 }}>
                         {([
-                            { l: "Tasks", v: TSK.length, c: C.g700, i: ClipboardList },
-                            { l: "Critical", v: TSK.filter((t) => t.pr === "critical").length, c: C.red, i: AlertTriangle },
+                            { l: "Tasks", v: tasks.length, c: C.g700, i: ClipboardList },
+                            { l: "Critical", v: tasks.filter((t) => t.pr === "critical").length, c: C.red, i: AlertTriangle },
                             { l: "Employees", v: EMP.length, c: C.g600, i: Users },
                             { l: "Alerts", v: ALRT.length, c: C.amber, i: Zap },
                         ] as { l: string; v: number; c: string; i: LucideIcon }[]).map((s, i) => (
@@ -413,6 +443,109 @@ export default function ManagerPage() {
                     ); })}
                 </div>}
             </div>
+
+            {/* NEW TASK MODAL */}
+            {showForm && (
+                <div style={{ position: "fixed", inset: 0, zIndex: 300, display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
+                    <div onClick={() => setShowForm(false)} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.35)" }} />
+                    <div style={{
+                        position: "relative", background: C.surface, borderRadius: "20px 20px 0 0",
+                        padding: "20px 18px 36px", boxShadow: "0 -8px 40px rgba(0,30,14,.18)",
+                        animation: "fu .25s ease",
+                    }}>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
+                            <div style={{ fontSize: 16, fontWeight: 700, color: C.g700 }}>New Task</div>
+                            <div onClick={() => setShowForm(false)} style={{ width: 30, height: 30, borderRadius: 8, background: C.surfDim, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                                <X size={14} color={C.txM} />
+                            </div>
+                        </div>
+
+                        {/* Title */}
+                        <div style={{ marginBottom: 12 }}>
+                            <div style={{ fontSize: 10, fontWeight: 700, color: C.txM, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 5 }}>Task Title</div>
+                            <input
+                                value={form.tl}
+                                onChange={(e) => setForm((p) => ({ ...p, tl: e.target.value }))}
+                                placeholder="Describe the task…"
+                                style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: `1px solid ${C.brdM}`, fontSize: 13, color: C.tx, fontFamily: F, background: C.surfDim, outline: "none" }}
+                            />
+                        </div>
+
+                        {/* Priority */}
+                        <div style={{ marginBottom: 12 }}>
+                            <div style={{ fontSize: 10, fontWeight: 700, color: C.txM, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 5 }}>Priority</div>
+                            <div style={{ display: "flex", gap: 6 }}>
+                                {(["critical", "high", "medium", "low"] as Priority[]).map((p) => {
+                                    const on = form.pr === p;
+                                    return (
+                                        <div key={p} onClick={() => setForm((prev) => ({ ...prev, pr: p }))} style={{
+                                            flex: 1, padding: "6px 0", borderRadius: 8, textAlign: "center",
+                                            fontSize: 10, fontWeight: 700, cursor: "pointer", textTransform: "uppercase",
+                                            background: on ? PRI[p].bg : C.surfDim,
+                                            color: on ? PRI[p].fg : C.txM,
+                                            border: `1px solid ${on ? PRI[p].dt : C.brd}`,
+                                        }}>{PRI_EN[p]}</div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Location + Time */}
+                        <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
+                            <div style={{ flex: 1 }}>
+                                <div style={{ fontSize: 10, fontWeight: 700, color: C.txM, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 5 }}>Location</div>
+                                <input
+                                    value={form.lc}
+                                    onChange={(e) => setForm((p) => ({ ...p, lc: e.target.value }))}
+                                    placeholder="e.g. Shelf B3"
+                                    style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: `1px solid ${C.brdM}`, fontSize: 13, color: C.tx, fontFamily: F, background: C.surfDim, outline: "none" }}
+                                />
+                            </div>
+                            <div style={{ flex: 1 }}>
+                                <div style={{ fontSize: 10, fontWeight: 700, color: C.txM, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 5 }}>Time</div>
+                                <input
+                                    type="time"
+                                    value={form.tm}
+                                    onChange={(e) => setForm((p) => ({ ...p, tm: e.target.value }))}
+                                    style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: `1px solid ${C.brdM}`, fontSize: 13, color: C.tx, fontFamily: F, background: C.surfDim, outline: "none" }}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Assign to */}
+                        <div style={{ marginBottom: 20 }}>
+                            <div style={{ fontSize: 10, fontWeight: 700, color: C.txM, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 5 }}>Assign To</div>
+                            <div style={{ display: "flex", gap: 6, overflowX: "auto", paddingBottom: 2 }}>
+                                {EMP.map((e) => {
+                                    const on = form.em === e.id;
+                                    return (
+                                        <div key={e.id} onClick={() => setForm((p) => ({ ...p, em: e.id }))} style={{
+                                            flexShrink: 0, padding: "6px 10px", borderRadius: 10, cursor: "pointer",
+                                            display: "flex", alignItems: "center", gap: 6,
+                                            background: on ? C.g50 : C.surfDim,
+                                            border: `1px solid ${on ? C.g700 : C.brd}`,
+                                        }}>
+                                            <div style={{ width: 22, height: 22, borderRadius: 6, background: on ? C.g700 : C.g100, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 8, fontWeight: 700, color: on ? "#fff" : C.g700 }}>{e.av}</div>
+                                            <span style={{ fontSize: 11, fontWeight: 600, color: on ? C.g700 : C.txS, whiteSpace: "nowrap" }}>{e.nm.split(" ")[0]}</span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Submit */}
+                        <div onClick={addTask} style={{
+                            display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                            padding: "13px 0", borderRadius: 13, fontSize: 14, fontWeight: 700,
+                            cursor: "pointer", background: form.tl.trim() ? C.g700 : C.brdM,
+                            color: "#fff", letterSpacing: 0.3, textTransform: "uppercase",
+                            transition: "background .2s",
+                        }}>
+                            <Plus size={15} /> Add Task
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* TAB BAR */}
             <div style={{
