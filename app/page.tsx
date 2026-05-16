@@ -1,9 +1,8 @@
-import ManagerPage from "@/app/ManagerPage";
-import EmployeePage from "@/app/EmployeePage";
+import ManagerPage from "@/app/en/ManagerPage";
+
 
 export default function Home() {
   return (
       <ManagerPage />
-      // <EmployeePage />
   );
 }

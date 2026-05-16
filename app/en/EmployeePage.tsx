@@ -64,27 +64,27 @@ const P: Record<Priority, PriorityColor> = {
 };
 
 const PL: Record<Priority, string> = {
-    critical: "Təcili",
-    high: "Yüksək",
-    medium: "Orta",
-    low: "Aşağı",
+    critical: "Urgent",
+    high: "High",
+    medium: "Medium",
+    low: "Low",
 };
 
 const SI: Record<Source, LucideIcon> = { cv: Eye, fixed: Clock, manager: UserCheck };
-const SL: Record<Source, string> = { cv: "AI Görmə", fixed: "Rutin", manager: "Menecer" };
+const SL: Record<Source, string> = { cv: "AI Vision", fixed: "Routine", manager: "Manager" };
 
 // ─── DATA ───
 const initTasks = (): TaskItem[] => [
-    { id: "t1",  tl: "Kassa 3-ü aç",       pr: "critical", sr: "cv",      lc: "Rəf B3",       tm: "09:30", st: "current" },
-    { id: "t20", tl: "Təzə meyvə-tərəvəz göndərisini al",  pr: "high",     sr: "fixed",   lc: "Yükləmə yeri", tm: "08:00", st: "queued" },
-    { id: "t3",  tl: "Soyuq zəncir temperaturunu yoxla",    pr: "critical", sr: "fixed",   lc: "Soyuq anbar",  tm: "08:00", st: "queued" },
-    { id: "t2",  tl: "Meyvə-tərəvəz spreylərini təmizlə",  pr: "high",     sr: "manager", lc: "Tərəvəz",      tm: "10:00", st: "queued" },
-    { id: "t21", tl: "Çəki bölməsi — müştəriyə kömək et", pr: "critical", sr: "cv",     lc: "Bütün rəflər", tm: "09:00", st: "queued" }
+    { id: "t1",  tl: "Open Checkout 3",                    pr: "critical", sr: "cv",      lc: "Shelf B3",      tm: "09:30", st: "current" },
+    { id: "t20", tl: "Receive Fresh Produce Delivery",     pr: "high",     sr: "fixed",   lc: "Loading Area",  tm: "08:00", st: "queued" },
+    { id: "t3",  tl: "Check Cold Chain Temperature",       pr: "critical", sr: "fixed",   lc: "Cold Storage",  tm: "08:00", st: "queued" },
+    { id: "t2",  tl: "Clean Produce Misting Sprayers",     pr: "high",     sr: "manager", lc: "Produce",       tm: "10:00", st: "queued" },
+    { id: "t21", tl: "Scales Section — Assist Customer",   pr: "critical", sr: "cv",      lc: "All Shelves",   tm: "09:00", st: "queued" }
 ];
 
 const initDone = (): DoneItem[] => [
-    { id: "t4",  tl: "Səhər çörək göndərisini qəbul et", at: "06:28" },
-    { id: "t10", tl: "Azərçay rəfini doldur",             at: "08:25" },
+    { id: "t4",  tl: "Accept Morning Bread Delivery", at: "06:28" },
+    { id: "t10", tl: "Restock Azercay Shelf",         at: "08:25" },
 ];
 
 const BREAK_S = 5 * 60;
@@ -154,14 +154,14 @@ export default function EmployeePage() {
         }, 350);
     };
 
-    const tmStr = now ? now.toLocaleTimeString("az-AZ", { hour: "2-digit", minute: "2-digit" }) : "--:--";
-    const dtStr = now ? now.toLocaleDateString("az-AZ", { day: "2-digit", month: "2-digit", year: "numeric" }) : "";
+    const tmStr = now ? now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }) : "--:--";
+    const dtStr = now ? now.toLocaleDateString("en-US", { day: "2-digit", month: "2-digit", year: "numeric" }) : "";
 
     const tabs_list: TabDef[] = [
-        { id: "queue",   lb: "Növbə",    ic: ClipboardList },
-        { id: "break",   lb: "Fasilə",   ic: Coffee },
-        { id: "done",    lb: "Bitən",    ic: CheckCircle2 },
-        { id: "profile", lb: "Profil",   ic: User },
+        { id: "queue",   lb: "Queue",   ic: ClipboardList },
+        { id: "break",   lb: "Break",   ic: Coffee },
+        { id: "done",    lb: "Done",    ic: CheckCircle2 },
+        { id: "profile", lb: "Profile", ic: User },
     ];
 
     return (
@@ -180,22 +180,21 @@ export default function EmployeePage() {
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                     <img src={LOGO} alt="Bravo" style={{ height: 30, filter: "brightness(0) invert(1)", objectFit: "contain" }} />
                     <div>
-                        <div style={{ fontFamily: fh, fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: -0.3 }}>Əli Həsənov</div>
-                        <div style={{ fontSize: 10, color: "rgba(255,255,255,.5)", fontWeight: 600 }}>Mərtəbə rəhbəri • Koroğlu</div>
+                        <div style={{ fontFamily: fh, fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: -0.3 }}>Ali Hasanov</div>
+                        <div style={{ fontSize: 10, color: "rgba(255,255,255,.5)", fontWeight: 600 }}>Floor Manager • Koroglu</div>
                     </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,.15)", borderRadius: 10, padding: "5px 12px" }}>
                     <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#4ade80" }} />
-                    <span style={{ fontSize: 11, fontWeight: 600, color: "#fff" }}>Aktiv</span>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: "#fff" }}>Active</span>
                 </div>
             </div>
 
             {/* STATS */}
             <div style={{ display: "flex", gap: 8, padding: "12px 14px" }}>
                 {([
-                    { v: queued.length, l: "Növbə", c: C.g7 },
-                    { v: done.length, l: "Bitən", c: C.g6 },
-                    { v: tmStr, l: "Vaxt", c: C.ts },
+                    { v: queued.length, l: "Queue", c: C.g7 },
+                    { v: done.length, l: "Done", c: C.g6 },
                 ] as { v: number | string; l: string; c: string }[]).map((s, i) => (
                     <div key={i} style={{ flex: 1, background: C.sf, borderRadius: 12, padding: "10px", border: `1px solid ${C.b}`, textAlign: "center" }}>
                         <div style={{ fontSize: 22, fontWeight: 800, color: s.c, fontFamily: fh }}>{s.v}</div>
@@ -207,10 +206,10 @@ export default function EmployeePage() {
             {/* CONTENT */}
             <div style={{ flex: 1, overflowY: "auto", paddingBottom: 72 }}>
 
-                {/* ─ NÖVBƏ ─ */}
+                {/* ─ QUEUE ─ */}
                 {tab === "queue" && <div style={{ padding: "0 14px 14px" }}>
                     {cur && <>
-                        <div style={{ fontSize: 12, fontWeight: 700, color: C.tm, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, fontFamily: fh }}>Cari tapşırıq</div>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: C.tm, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, fontFamily: fh }}>Current Task</div>
                         <div style={{
                             background: C.sf, borderRadius: 16, padding: "14px 16px", marginBottom: 14,
                             border: `2px solid ${C.g4}50`, boxShadow: `0 2px 12px ${C.g4}12`,
@@ -235,13 +234,13 @@ export default function EmployeePage() {
                                 background: `linear-gradient(135deg, ${C.g6}, ${C.g7})`,
                                 color: "#fff", fontFamily: fh,
                             }}>
-                                <CheckCheck size={15} /> Tamamla
+                                <CheckCheck size={15} /> Complete
                             </div>
                         </div>
                     </>}
 
                     {queued.length > 0 && <>
-                        <div style={{ fontSize: 12, fontWeight: 700, color: C.tm, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, fontFamily: fh }}>Növbəti — {queued.length}</div>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: C.tm, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, fontFamily: fh }}>Next — {queued.length}</div>
                         {queued.map((t, i) => { const pc = P[t.pr]; return (
                             <div key={t.id} style={{
                                 background: C.sf, borderRadius: 13, padding: "10px 13px", marginBottom: 7,
@@ -264,18 +263,18 @@ export default function EmployeePage() {
                     {tasks.length === 0 && (
                         <div style={{ padding: 60, textAlign: "center" }}>
                             <CheckCircle2 size={40} color={C.g4} style={{ opacity: 0.4, marginBottom: 12 }} />
-                            <div style={{ fontSize: 15, fontWeight: 700, color: C.g7, fontFamily: fh }}>Hamısı bitdi!</div>
-                            <div style={{ fontSize: 12, color: C.tm, marginTop: 4 }}>Növbədə tapşırıq yoxdur.</div>
+                            <div style={{ fontSize: 15, fontWeight: 700, color: C.g7, fontFamily: fh }}>All Done!</div>
+                            <div style={{ fontSize: 12, color: C.tm, marginTop: 4 }}>No tasks in queue.</div>
                         </div>
                     )}
                 </div>}
 
-                {/* ─ FASİLƏ ─ */}
+                {/* ─ BREAK ─ */}
                 {tab === "break" && <div style={{ padding: "30px 14px", display: "flex", flexDirection: "column", alignItems: "center" }}>
                     {!brk ? <>
                         <Coffee size={32} color={C.g4} style={{ marginBottom: 16, opacity: 0.6 }} />
-                        <div style={{ fontFamily: fh, fontSize: 26, fontWeight: 800, color: C.tx, marginBottom: 6 }}>Fasilə vaxtı</div>
-                        <div style={{ fontSize: 13, color: C.tm, marginBottom: 36, textAlign: "center" }}>Bir az dincəl. 5 dəqiqə fasilə götür.</div>
+                        <div style={{ fontFamily: fh, fontSize: 26, fontWeight: 800, color: C.tx, marginBottom: 6 }}>Break Time</div>
+                        <div style={{ fontSize: 13, color: C.tm, marginBottom: 36, textAlign: "center" }}>Take a rest. Have a 5-minute break.</div>
                         <div style={{
                             width: 150, height: 150, borderRadius: 32,
                             background: C.sf, border: `2px solid ${C.b}`,
@@ -289,13 +288,13 @@ export default function EmployeePage() {
                             padding: "12px 44px", borderRadius: 14, cursor: "pointer",
                             background: C.g7, color: "#fff",
                             fontSize: 14, fontWeight: 700, letterSpacing: 0.5, fontFamily: fh, textTransform: "uppercase",
-                        }}><Play size={16} /> Başla</div>
+                        }}><Play size={16} /> Start</div>
                     </> : <>
                         <div style={{ fontFamily: fh, fontSize: 22, fontWeight: 800, color: C.tx, marginBottom: 6 }}>
-                            {brkP ? "Dayandırıldı" : "Fasilədə"}
+                            {brkP ? "Paused" : "On Break"}
                         </div>
                         <div style={{ fontSize: 12, color: C.tm, marginBottom: 32 }}>
-                            {brkP ? "Davam etmək üçün basın" : "Rahat ol, xəbər veriləcək"}
+                            {brkP ? "Tap to resume" : "Relax, you'll be notified"}
                         </div>
                         <div style={{ position: "relative", width: 160, height: 160, marginBottom: 36, animation: brkP ? "none" : "br 4s ease infinite" }}>
                             <svg width={160} height={160} viewBox="0 0 160 160">
@@ -306,21 +305,21 @@ export default function EmployeePage() {
                             </svg>
                             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                                 <div style={{ fontFamily: fh, fontSize: 42, fontWeight: 900, color: C.tx }}>{fmtT(brkR)}</div>
-                                <div style={{ fontSize: 11, color: C.tm }}>qalıb</div>
+                                <div style={{ fontSize: 11, color: C.tm }}>left</div>
                             </div>
                         </div>
                         <div style={{ display: "flex", gap: 10 }}>
                             {brkP ? (
-                                <div onClick={resumeB} style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 28px", borderRadius: 12, cursor: "pointer", background: C.g7, color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: fh, textTransform: "uppercase" }}><Play size={14} /> Davam</div>
+                                <div onClick={resumeB} style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 28px", borderRadius: 12, cursor: "pointer", background: C.g7, color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: fh, textTransform: "uppercase" }}><Play size={14} /> Resume</div>
                             ) : (
-                                <div onClick={pauseB} style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 28px", borderRadius: 12, cursor: "pointer", background: C.am, color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: fh, textTransform: "uppercase" }}><Pause size={14} /> Dayandır</div>
+                                <div onClick={pauseB} style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 28px", borderRadius: 12, cursor: "pointer", background: C.am, color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: fh, textTransform: "uppercase" }}><Pause size={14} /> Pause</div>
                             )}
-                            <div onClick={resetB} style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 20px", borderRadius: 12, cursor: "pointer", background: C.sf, color: C.ts, border: `1px solid ${C.bM}`, fontSize: 13, fontWeight: 700, fontFamily: fh, textTransform: "uppercase" }}><RotateCcw size={14} /> Bitir</div>
+                            <div onClick={resetB} style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 20px", borderRadius: 12, cursor: "pointer", background: C.sf, color: C.ts, border: `1px solid ${C.bM}`, fontSize: 13, fontWeight: 700, fontFamily: fh, textTransform: "uppercase" }}><RotateCcw size={14} /> Stop</div>
                         </div>
                     </>}
                 </div>}
 
-                {/* ─ BİTƏN ─ */}
+                {/* ─ DONE ─ */}
                 {tab === "done" && <div style={{ padding: "12px 14px" }}>
                     <div style={{
                         background: `linear-gradient(135deg, ${C.g0}, ${C.g1})`, borderRadius: 16,
@@ -328,9 +327,9 @@ export default function EmployeePage() {
                         border: `1px solid ${C.g2}40`,
                     }}>
                         <div style={{ fontFamily: fh, fontSize: 52, fontWeight: 900, color: C.g7 }}>{done.length}</div>
-                        <div style={{ fontSize: 12, fontWeight: 600, color: C.ts }}>Bu gün tamamlanmış tapşırıqlar</div>
+                        <div style={{ fontSize: 12, fontWeight: 600, color: C.ts }}>Tasks completed today</div>
                     </div>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: C.tm, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, fontFamily: fh }}>Tamamlanmış</div>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: C.tm, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, fontFamily: fh }}>Completed</div>
                     {done.map((t, i) => (
                         <div key={t.id} style={{
                             background: C.sf, borderRadius: 13, padding: "10px 13px", marginBottom: 6,
@@ -342,10 +341,10 @@ export default function EmployeePage() {
                             <span style={{ fontSize: 10, color: C.tm, fontWeight: 600 }}>{t.at}</span>
                         </div>
                     ))}
-                    {done.length === 0 && <div style={{ padding: 40, textAlign: "center", color: C.tm, fontSize: 13 }}>Hələ tamamlanmış tapşırıq yoxdur.</div>}
+                    {done.length === 0 && <div style={{ padding: 40, textAlign: "center", color: C.tm, fontSize: 13 }}>No completed tasks yet.</div>}
                 </div>}
 
-                {/* ─ PROFİL ─ */}
+                {/* ─ PROFILE ─ */}
                 {tab === "profile" && <div style={{ padding: "20px 14px" }}>
                     <div style={{
                         background: C.sf, borderRadius: 20, padding: "28px 20px", textAlign: "center",
@@ -356,18 +355,18 @@ export default function EmployeePage() {
                             background: `linear-gradient(135deg, ${C.g6}, ${C.g7})`,
                             display: "flex", alignItems: "center", justifyContent: "center",
                             fontSize: 26, fontWeight: 900, color: "#fff", fontFamily: fh,
-                        }}>ƏH</div>
-                        <div style={{ fontSize: 20, fontWeight: 800, color: C.tx, fontFamily: fh }}>Əli Həsənov</div>
-                        <div style={{ fontSize: 13, color: C.tm, marginTop: 3 }}>Mərtəbə rəhbəri</div>
-                        <div style={{ fontSize: 12, color: C.ts, marginTop: 2 }}>Bravo Koroğlu Hiper</div>
+                        }}>AH</div>
+                        <div style={{ fontSize: 20, fontWeight: 800, color: C.tx, fontFamily: fh }}>Ali Hasanov</div>
+                        <div style={{ fontSize: 13, color: C.tm, marginTop: 3 }}>Floor Manager</div>
+                        <div style={{ fontSize: 12, color: C.ts, marginTop: 2 }}>Bravo Koroglu Hyper</div>
                         <img src={LOGO} alt="Bravo" style={{ height: 24, marginTop: 14, opacity: 0.3, objectFit: "contain" }} />
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                         {([
-                            { l: "Tamamlanmış", v: done.length, c: C.g6, i: CheckCircle2 },
-                            { l: "Növbədə", v: tasks.length, c: C.g7, i: ClipboardList },
-                            { l: "Cari", v: cur ? 1 : 0, c: C.am, i: Zap },
-                            { l: "Fasilədə", v: brk ? "Bəli" : "Xeyr", c: C.bl, i: Coffee },
+                            { l: "Completed", v: done.length, c: C.g6, i: CheckCircle2 },
+                            { l: "Queued", v: tasks.length, c: C.g7, i: ClipboardList },
+                            { l: "Current", v: cur ? 1 : 0, c: C.am, i: Zap },
+                            { l: "On Break", v: brk ? "Yes" : "No", c: C.bl, i: Coffee },
                         ] as { l: string; v: number | string; c: string; i: LucideIcon }[]).map((s, i) => (
                             <div key={i} style={{ background: C.sf, borderRadius: 13, padding: "14px", border: `1px solid ${C.b}` }}>
                                 <s.i size={16} color={s.c} style={{ marginBottom: 6 }} />
