@@ -8,9 +8,6 @@ import {
     X, Zap, BarChart3, ClipboardList, User, Coffee,
     LucideIcon,
 } from "lucide-react";
-import {
-    AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer,
-} from "recharts";
 
 const F = "var(--font-heading), system-ui, sans-serif";
 
@@ -61,11 +58,6 @@ interface Alert {
     sv: Priority;
     ag: string;
     dt: string;
-}
-
-interface PosData {
-    hr: string;
-    tx: number;
 }
 
 interface FilterOption {
@@ -153,19 +145,6 @@ const ALRT: Alert[] = [
     { id: "a3", tp: "stockout",    tl: "Milla Kefir 500ml — rəf boşdur",          sv: "high",     ag: "8 dəq", dt: "Son satış 22 dəq əvvəl. Seqment B3-04." },
     { id: "a4", tp: "expiry",      tl: "12 süd məhsulunun müddəti 24 saat qalıb",  sv: "high",     ag: "12 dəq", dt: "Endirim tövsiyə olunur." },
 ];
-
-const POS: PosData[] = Array.from({ length: 24 }, (_, h) => {
-    let tx: number;
-    if (h < 6) tx = ~~(Math.random() * 8 + 2);
-    else if (h < 9) tx = ~~(Math.random() * 25 + 15);
-    else if (h < 12) tx = ~~(Math.random() * 35 + 25);
-    else if (h < 14) tx = ~~(Math.random() * 50 + 45);
-    else if (h < 17) tx = ~~(Math.random() * 30 + 20);
-    else if (h < 19) tx = ~~(Math.random() * 55 + 40);
-    else if (h < 21) tx = ~~(Math.random() * 35 + 20);
-    else tx = ~~(Math.random() * 15 + 5);
-    return { hr: h.toString().padStart(2, "0") + ":00", tx };
-});
 
 // ─── COMPONENT ───
 export default function ManagerPage() {
@@ -373,21 +352,6 @@ export default function ManagerPage() {
                 {/* ─ İCMAL ─ */}
                 {tab === "overview" && <div style={{ padding: "12px 14px" }}>
                     <div style={{ fontSize: 16, fontWeight: 700, color: C.g700, marginBottom: 12 }}>Mağaza icmalı</div>
-                    <div style={{ background: C.surface, borderRadius: 14, padding: "12px 10px 6px", border: `1px solid ${C.brd}`, marginBottom: 12 }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", padding: "0 4px", marginBottom: 6 }}>
-                            <span style={{ fontSize: 11, fontWeight: 700, color: C.txM, textTransform: "uppercase", letterSpacing: 0.8 }}>Əməliyyatlar</span>
-                            <span style={{ fontSize: 11, fontWeight: 700, color: C.g700 }}>{POS.reduce((s, d) => s + d.tx, 0)} bu gün</span>
-                        </div>
-                        <ResponsiveContainer width="100%" height={100}>
-                            <AreaChart data={POS} margin={{ top: 4, right: 4, left: -24, bottom: 0 }}>
-                                <defs><linearGradient id="gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={C.g500} stopOpacity={0.25} /><stop offset="100%" stopColor={C.g500} stopOpacity={0} /></linearGradient></defs>
-                                <XAxis dataKey="hr" tick={{ fontSize: 9, fill: C.txM }} tickLine={false} axisLine={false} interval={5} />
-                                <YAxis hide />
-                                <Tooltip contentStyle={{ background: C.surface, border: `1px solid ${C.brdM}`, borderRadius: 10, fontSize: 12, fontFamily: F }} />
-                                <Area type="monotone" dataKey="tx" stroke={C.g600} strokeWidth={2} fill="url(#gf)" />
-                            </AreaChart>
-                        </ResponsiveContainer>
-                    </div>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 14 }}>
                         {([
                             { l: "Tapşırıqlar", v: TSK.length, c: C.g700, i: ClipboardList },
